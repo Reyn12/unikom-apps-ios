@@ -1,31 +1,38 @@
-import { StyleSheet } from 'react-native';
-
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+import { StyleSheet, ScrollView, View as RNView } from 'react-native';
+import { Text } from '@/components/Themed';
+import { StatusBar } from 'expo-status-bar';
+import Header from '@/components/homepage/Header';
 
 export default function TabOneScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab Satu</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
-    </View>
+    <>
+      <StatusBar style="light" backgroundColor="#1E3A8A" />
+      <RNView style={styles.container}>
+        {/* Header Section */}
+        <Header studentName="M RENALDI" />
+        
+        {/* Main Content Section - Nanti diisi dengan komponen-komponen lain */}
+        <ScrollView style={styles.mainSection}>
+          <Text style={styles.mainText}>Main Content Section</Text>
+          <Text>Di sini nanti kita akan memanggil komponen-komponen lainnya</Text>
+        </ScrollView>
+      </RNView>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
-  title: {
-    fontSize: 20,
+  mainSection: {
+    flex: 1,
+    backgroundColor: '#F5F5F5', // Light gray background
+    padding: 16,
+  },
+  mainText: {
+    fontSize: 16,
     fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
+    marginBottom: 10,
   },
 });
