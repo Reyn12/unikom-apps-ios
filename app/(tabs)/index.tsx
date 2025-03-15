@@ -14,7 +14,7 @@ export default function TabOneScreen() {
         {/* Main Content Section - Nanti diisi dengan komponen-komponen lain */}
         <ScrollView style={styles.mainSection}>
           <Text style={styles.mainText}>Main Content Section</Text>
-          <Text>Di sini nanti kita akan memanggil komponen-komponen lainnya</Text>
+          <Text>Coming Soon ...</Text>
         </ScrollView>
       </RNView>
     </>

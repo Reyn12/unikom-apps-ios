@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { Text } from '@/components/Themed';
 import { getMondaySchedules, getTodaySchedules, getTomorrowSchedules } from '@/data/schedules';
-import { Calendar, Clock, MapPin, User } from 'lucide-react-native';
+import { Calendar, Clock, MapPin, User, Bell, Settings, UserCircle } from 'lucide-react-native';
 
 interface HeaderProps {
     studentName?: string;
@@ -10,6 +10,8 @@ interface HeaderProps {
 
 const Header = ({ studentName = 'M Renaldi' }: HeaderProps) => {
     const [expanded, setExpanded] = useState(false);
+
+    // Testing nnti ganti jd getTodaySchedules()
     const todaySchedules = getMondaySchedules();
     const nextSchedule = todaySchedules.length > 0 ? todaySchedules[0] : null;
     const tomorrowSchedules = getTomorrowSchedules();
@@ -20,14 +22,14 @@ const Header = ({ studentName = 'M Renaldi' }: HeaderProps) => {
             <View style={styles.headerTop}>
                 <Text style={styles.logo}>Unikom Apps</Text>
                 <View style={styles.iconContainer}>
-                    <TouchableOpacity>
-                        <Text style={styles.iconText}>🔔</Text>
+                    <TouchableOpacity style={styles.iconButton}>
+                        <Bell size={22} color="#FFFFFF" />
                     </TouchableOpacity>
-                    <TouchableOpacity>
-                        <Text style={styles.iconText}>⚙️</Text>
+                    <TouchableOpacity style={styles.iconButton}>
+                        <Settings size={22} color="#FFFFFF" />
                     </TouchableOpacity>
-                    <TouchableOpacity>
-                        <Text style={styles.iconText}>👤</Text>
+                    <TouchableOpacity style={styles.iconButton}>
+                        <UserCircle size={22} color="#FFFFFF" />
                     </TouchableOpacity>
                 </View>
             </View>
@@ -41,7 +43,7 @@ const Header = ({ studentName = 'M Renaldi' }: HeaderProps) => {
             <View style={styles.card}>
                 <View style={styles.cardHeader}>
                     <View style={styles.cardHeaderTextContainer}>
-                        <Calendar size={20} color="#FFFFFF" />
+                        <Calendar size={18} color="#FFFFFF" />
                         <Text style={styles.cardHeaderText}>Jadwal Hari Ini</Text>
                     </View>
                 </View>
@@ -52,15 +54,15 @@ const Header = ({ studentName = 'M Renaldi' }: HeaderProps) => {
                             <View style={styles.scheduleItem}>
                                 <Text style={styles.scheduleSubject}>{todaySchedules[0].course.name}</Text>
                                 <View style={styles.scheduleTimeContainer}>
-                                    <Clock size={18} color="#3B82F6" />
+                                    <Clock size={16} color="#3B82F6" />
                                     <Text style={styles.scheduleTime}>{todaySchedules[0].startTime} - {todaySchedules[0].endTime}</Text>
                                 </View>
                                 <View style={styles.scheduleRoomContainer}>
-                                    <MapPin size={18} color="#3B82F6" />
+                                    <MapPin size={16} color="#3B82F6" />
                                     <Text style={styles.scheduleRoom}>{todaySchedules[0].room} • {todaySchedules[0].class}</Text>
                                 </View>
                                 <View style={styles.lecturerContainer}>
-                                    <User size={18} color="#3B82F6" />
+                                    <User size={16} color="#3B82F6" />
                                     <Text style={styles.lecturerName}>{todaySchedules[0].lecturer.name}</Text>
                                 </View>
                             </View>
@@ -89,7 +91,7 @@ const Header = ({ studentName = 'M Renaldi' }: HeaderProps) => {
                                                             {schedule.startTime} - {schedule.endTime}
                                                         </Text>
                                                     </View>
-                                                    
+
                                                     <View style={styles.scheduleRoomContainer}>
                                                         <MapPin size={10} color="#6B7280" />
                                                         <Text style={styles.otherScheduleRoom}>
@@ -179,6 +181,7 @@ const styles = StyleSheet.create({
     },
     scheduleItem: {
         marginBottom: 10,
+        gap: 4,
     },
     scheduleTime: {
         fontWeight: 'bold',
@@ -289,6 +292,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         gap: 6,
+    },
+    iconButton: {
+        padding: 5,
     },
 });
 
