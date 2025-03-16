@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   mainSection: {
     flex: 1,
     backgroundColor: '#1E3A8A',
-    marginTop: -10,
+    marginTop: -15,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     paddingTop: 15, 
