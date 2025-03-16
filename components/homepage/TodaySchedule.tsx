@@ -8,7 +8,7 @@ const TodaySchedule = () => {
     const [expanded, setExpanded] = useState(false);
 
     // Testing nanti ganti jd getTodaySchedules()
-    const todaySchedules = getTodaySchedules();
+    const todaySchedules = getMondaySchedules();
     const tomorrowSchedules = getTomorrowSchedules();
 
     return (

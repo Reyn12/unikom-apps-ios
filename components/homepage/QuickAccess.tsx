@@ -3,28 +3,29 @@ import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { Text } from '@/components/Themed';
 import { BookOpen, GraduationCap, ClipboardList, Calendar } from 'lucide-react-native';
 
-interface QuickAccessItemProps {
+interface QuickAccessItemProps { 
   icon: React.ReactNode;
   label: string;
   badge?: number;
+  labelColor?: string;
   onPress: () => void;
 }
 
-const QuickAccessItem = ({ icon, label, badge, onPress }: QuickAccessItemProps) => {
-  return (
-    <TouchableOpacity style={styles.item} onPress={onPress}>
-      <View style={styles.iconContainer}>
-        {icon}
-        {badge && (
-          <View style={styles.badge}>
-            <Text style={styles.badgeText}>{badge}</Text>
-          </View>
-        )}
-      </View>
-      <Text style={styles.label}>{label}</Text>
-    </TouchableOpacity>
-  );
-};
+const QuickAccessItem = ({ icon, label, badge, labelColor = '#fff', onPress }: QuickAccessItemProps) => {
+    return (
+      <TouchableOpacity style={styles.item} onPress={onPress}>
+        <View style={styles.iconContainer}>
+          {icon}
+          {badge && (
+            <View style={styles.badge}>
+              <Text style={styles.badgeText}>{badge}</Text>
+            </View>
+          )}
+        </View>
+        <Text style={[styles.label, { color: labelColor }]}>{label}</Text>
+      </TouchableOpacity>
+    );
+  };
 
 const QuickAccess = () => {
   return (
@@ -34,24 +35,28 @@ const QuickAccess = () => {
         <View style={styles.itemsContainer}>
           <QuickAccessItem 
             icon={<ClipboardList size={24} color="#1E3A8A" />} 
-            label="Tugas" 
+            label="Tugas"
             badge={3}
+            labelColor="#000"
             onPress={() => {}} 
           />
           <QuickAccessItem 
             icon={<BookOpen size={24} color="#1E3A8A" />} 
             label="Materi" 
             badge={12}
+            labelColor="#000"
             onPress={() => {}} 
           />
           <QuickAccessItem 
             icon={<GraduationCap size={24} color="#1E3A8A" />} 
             label="Nilai" 
+            labelColor="#000"
             onPress={() => {}} 
           />
           <QuickAccessItem 
             icon={<Calendar size={24} color="#1E3A8A" />} 
             label="Kalender" 
+            labelColor="#000"
             onPress={() => {}} 
           />
         </View>
@@ -62,14 +67,11 @@ const QuickAccess = () => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 16,
-    backgroundColor: '#1E3A8A',
-    borderRadius: 12,
   },
   title: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 16,
+    marginBottom: 22,
     color: '#000',
   },
   itemsContainer: {
