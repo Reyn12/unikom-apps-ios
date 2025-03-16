@@ -3,6 +3,7 @@ import { Text } from '@/components/Themed';
 import { StatusBar } from 'expo-status-bar';
 import Header from '@/components/homepage/Header';
 import TodaySchedule from '@/components/homepage/TodaySchedule';
+import QuickAccess from '@/components/homepage/QuickAccess';
 
 
 export default function TabOneScreen() {
@@ -24,33 +25,7 @@ export default function TabOneScreen() {
 
           {/* Section baru untuk main content */}
           <View style={styles.mainSection2}>
-            <Text style={styles.mainText}>Main Content Section</Text>
-
-            {/* List item */}
-            <View style={styles.listItem}>
-              <Text style={styles.listTitle}>Pengumuman Akademik</Text>
-              <Text style={styles.listDesc}>Jadwal UTS Semester Genap 2024/2025</Text>
-            </View>
-
-            <View style={styles.listItem}>
-              <Text style={styles.listTitle}>Info Kampus</Text>
-              <Text style={styles.listDesc}>Webinar Teknologi AI - 20 Maret 2025</Text>
-            </View>
-
-            <View style={styles.listItem}>
-              <Text style={styles.listTitle}>Beasiswa</Text>
-              <Text style={styles.listDesc}>Pendaftaran Beasiswa Prestasi dibuka!</Text>
-            </View>
-
-            <View style={styles.listItem}>
-              <Text style={styles.listTitle}>Kegiatan Mahasiswa</Text>
-              <Text style={styles.listDesc}>Festival Teknologi UNIKOM 2025</Text>
-            </View>
-
-            <View style={styles.listItem}>
-              <Text style={styles.listTitle}>Lowongan Kerja</Text>
-              <Text style={styles.listDesc}>PT. Global Tech mencari Frontend Developer</Text>
-            </View>
+            <QuickAccess />
           </View>
         </ScrollView>
       </RNView>
@@ -94,25 +69,5 @@ const styles = StyleSheet.create({
     marginTop: 15,
     width: '100%', 
     height: 1000,
-  },
-  listItem: {
-    backgroundColor: '#FFFFFF',
-    padding: 12,
-    borderRadius: 8,
-    marginBottom: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  listTitle: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    marginBottom: 4,
-  },
-  listDesc: {
-    fontSize: 12,
-    color: '#666',
   },
 });
