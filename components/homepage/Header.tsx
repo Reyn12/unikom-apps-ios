@@ -12,7 +12,7 @@ const Header = ({ studentName = 'M Renaldi' }: HeaderProps) => {
     const [expanded, setExpanded] = useState(false);
 
     // Testing nnti ganti jd getTodaySchedules()
-    const todaySchedules = getMondaySchedules();
+    const todaySchedules = getTodaySchedules();
     const nextSchedule = todaySchedules.length > 0 ? todaySchedules[0] : null;
     const tomorrowSchedules = getTomorrowSchedules();
 
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     headerSection: {
         backgroundColor: '#1E3A8A', // Biru tua untuk tema sekolah
         paddingTop: 60,
-        paddingBottom: 20,
+        paddingBottom: 40,
         paddingHorizontal: 16,
     },
     headerTop: {
