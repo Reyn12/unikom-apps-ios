@@ -5,6 +5,7 @@ import Header from '@/components/homepage/Header';
 import TodaySchedule from '@/components/homepage/TodaySchedule';
 import QuickAccess from '@/components/homepage/QuickAccess';
 import Pengumuman from '@/components/homepage/Pengumuman';
+import EventKampus from '@/components/homepage/EventKampus';
 
 export default function TabOneScreen() {
   return (
@@ -28,6 +29,7 @@ export default function TabOneScreen() {
           <View style={styles.mainSection2}>
             <QuickAccess />
             <Pengumuman />
+            <EventKampus />
           </View>
         </ScrollView>
       </RNView>
