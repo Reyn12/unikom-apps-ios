@@ -4,7 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import Header from '@/components/homepage/Header';
 import TodaySchedule from '@/components/homepage/TodaySchedule';
 import QuickAccess from '@/components/homepage/QuickAccess';
-
+import Pengumuman from '@/components/homepage/Pengumuman';
 
 export default function TabOneScreen() {
   return (
@@ -21,11 +21,13 @@ export default function TabOneScreen() {
             HALO, <Text style={styles.studentNameText}>M RENALDI</Text>
           </Text>
 
+          {/* Today Schedule */}
           <TodaySchedule />
 
           {/* Section baru untuk main content */}
           <View style={styles.mainSection2}>
             <QuickAccess />
+            <Pengumuman />
           </View>
         </ScrollView>
       </RNView>
