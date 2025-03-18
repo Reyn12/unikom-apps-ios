@@ -6,6 +6,7 @@ import TodaySchedule from '@/components/homepage/TodaySchedule';
 import QuickAccess from '@/components/homepage/QuickAccess';
 import Pengumuman from '@/components/homepage/Pengumuman';
 import EventKampus from '@/components/homepage/EventKampus';
+import ForumDiskusi from '@/components/homepage/ForumDiskusi';
 
 export default function TabOneScreen() {
   return (
@@ -30,6 +31,7 @@ export default function TabOneScreen() {
             <QuickAccess />
             <Pengumuman />
             <EventKampus />
+            <ForumDiskusi />
           </View>
         </ScrollView>
       </RNView>
@@ -66,7 +68,7 @@ const styles = StyleSheet.create({
 
   // Main Section 2
   mainSection2: {
-    backgroundColor: '#F5F5F5', 
+    backgroundColor: '#f9f4f4', 
     padding: 16,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
