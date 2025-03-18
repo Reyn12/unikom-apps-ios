@@ -7,6 +7,7 @@ import QuickAccess from '@/components/homepage/QuickAccess';
 import Pengumuman from '@/components/homepage/Pengumuman';
 import EventKampus from '@/components/homepage/EventKampus';
 import ForumDiskusi from '@/components/homepage/ForumDiskusi';
+import CardInfo from '@/components/homepage/CardInfo';
 
 export default function TabOneScreen() {
   return (
@@ -32,6 +33,7 @@ export default function TabOneScreen() {
             <Pengumuman />
             <EventKampus />
             <ForumDiskusi />
+            <CardInfo />
           </View>
         </ScrollView>
       </RNView>
@@ -73,7 +75,6 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     marginTop: 15,
-    width: '100%', 
-    height: 1000,
+    width: '100%',
   },
 });
