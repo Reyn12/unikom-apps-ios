@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
 
   // Main Section 2
   mainSection2: {
-    backgroundColor: '#f9f4f4', 
+    backgroundColor: '#FEFEFE', 
     padding: 16,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,

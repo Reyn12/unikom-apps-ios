@@ -44,6 +44,8 @@ const ForumDiskusi: React.FC<ForumDiskusiProps> = ({ onPress }) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: '#e8eaf1',
     borderRadius: 12,
     marginHorizontal: 16,
     marginVertical: 8,
