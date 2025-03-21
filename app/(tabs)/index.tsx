@@ -1,6 +1,9 @@
 import { StyleSheet, ScrollView, View as RNView, View } from 'react-native';
 import { Text } from '@/components/Themed';
-import { StatusBar } from 'expo-status-bar';
+import { StatusBar as ExpoStatusBar } from 'expo-status-bar';
+import { StatusBar as RNStatusBar } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
+import React from 'react';
 import Header from '@/components/homepage/Header';
 import TodaySchedule from '@/components/homepage/TodaySchedule';
 import QuickAccess from '@/components/homepage/QuickAccess';
@@ -10,9 +13,20 @@ import ForumDiskusi from '@/components/homepage/ForumDiskusi';
 import CardInfo from '@/components/homepage/CardInfo';
 
 export default function TabOneScreen() {
+
+  useFocusEffect(
+    React.useCallback(() => {
+      // Ini akan dijalankan saat screen mendapat fokus
+      RNStatusBar.setBarStyle('light-content');
+      return () => {
+        // Cleanup jika perlu
+      };
+    }, [])
+  );
+
   return (
     <>
-      <StatusBar style="light" backgroundColor="#1E3A8A" />
+      <ExpoStatusBar style="light" backgroundColor="#1E3A8A" animated={true}/>
       <RNView style={styles.container}>
         {/* Header Section - hanya logo dan icon */}
         <Header studentName="M RENALDI" showGreeting={false} />
