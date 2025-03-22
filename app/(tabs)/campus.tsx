@@ -6,6 +6,7 @@ import Navbar from '@/components/campus/Navbar';
 import Berita from '@/components/campus/Berita';
 import Peta from '@/components/campus/Peta';
 import { useState } from 'react';
+import Fakultas from '@/components/campus/Fakultas';
 
 export default function CampusScreen() {
   const [activeTab, setActiveTab] = useState('Berita');
@@ -17,7 +18,7 @@ export default function CampusScreen() {
       case 'Peta':
         return <Peta />;
       case 'Fakultas':
-        return <Text style={styles.comingSoon}>Informasi Fakultas akan segera hadir</Text>;
+        return <Fakultas />;
       default:
         return <Berita />;
     }
