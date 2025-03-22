@@ -6,6 +6,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import React from 'react';
 import Colors from '@/constants/Colors';
 import Header from '@/components/schedule/Header';
+import Hari from '@/components/schedule/Hari';
 
 export default function ScheduleScreen() {
 
@@ -26,8 +27,9 @@ export default function ScheduleScreen() {
       <Header />
       {/* Main Section */}
       <View style={styles.mainSection}>
+        {/* Hari */}
+        <Hari />
         <ScrollView>
-          
         </ScrollView>
       </View>
     </View>
