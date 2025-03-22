@@ -1,5 +1,5 @@
 import { ScrollView, RefreshControl, StyleSheet } from 'react-native';
-import { Text, View } from '@/components/Themed';
+import { View } from '@/components/Themed';
 import { StatusBar as ExpoStatusBar } from 'expo-status-bar';
 import { StatusBar as RNStatusBar } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';

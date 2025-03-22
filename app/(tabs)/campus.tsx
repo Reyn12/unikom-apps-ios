@@ -1,29 +1,43 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 import { Text, View } from '@/components/Themed';
+import Colors from '@/constants/Colors';
+import Header from '@/components/campus/Header';
+import Navbar from '@/components/campus/Navbar';
 
 export default function CampusScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Kampus</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <Text>Halaman kampus akan muncul di sini</Text>
+      <Header />
+      <View style={styles.mainSection}>
+        <Navbar />
+        <View style={styles.mainSection2}>
+          <ScrollView>
+            {/* Konten halaman disini */}
+          </ScrollView>
+        </View>
+      </View>
     </View>
-  );
+  );  
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: Colors.primary,
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  mainSection: {
+    flex: 1,
+    backgroundColor: 'white',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
   },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
+  mainSection2: {
+    flex: 1,
+    backgroundColor: Colors.putih,
+    marginTop: -30,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    paddingHorizontal: 15,
+    paddingTop: 15,
   },
 });
