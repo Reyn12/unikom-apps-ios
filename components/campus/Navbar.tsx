@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import Colors from '@/constants/Colors';
 
-const Navbar = () => {
-  const [activeTab, setActiveTab] = useState('Berita');
+interface NavbarProps {
+    activeTab: string;
+    setActiveTab: (tab: string) => void;
+  }
 
+const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
   const tabs = ['Berita', 'Peta', 'Fakultas'];
 
   return (
