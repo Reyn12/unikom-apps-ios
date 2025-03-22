@@ -6,7 +6,7 @@ import { CalendarClock  } from 'lucide-react-native'
 const Header = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Jadwal</Text>
+      <Text style={styles.title}>Jadwal Kuliah</Text>
       {/* Icon kalender di kanan */}
       <View style={styles.iconContainer}>
         <TouchableOpacity>

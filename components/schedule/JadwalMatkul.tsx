@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Schedule } from '@/types/schedule';
 import Colors from '@/constants/Colors';
 import { Dot, Video, FileText } from 'lucide-react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 interface JadwalMatkulProps {
   schedules: Schedule[];
@@ -20,22 +21,22 @@ const JadwalMatkul: React.FC<JadwalMatkulProps> = ({ schedules, selectedDay }) =
     return (
       <View style={styles.emptyContainer}>
         <View style={styles.emptyIconContainer}>
-          <FileText size={60} color="#CCCCCC" />
+          <FileText size={60} color={Colors.primary} />
         </View>
         <Text style={styles.emptyTitle}>Tidak ada jadwal</Text>
         <Text style={styles.emptyText}>Kamu tidak memiliki jadwal kuliah untuk hari {selectedDay}</Text>
         <View style={styles.emptyTips}>
           <Text style={styles.emptyTipsText}>Gunakan waktu luang untuk:</Text>
           <View style={styles.tipItem}>
-            <View style={styles.tipBullet} />
+            <View style={[styles.tipBullet, { backgroundColor: Colors.primary }]} />
             <Text style={styles.tipText}>Mengerjakan tugas</Text>
           </View>
           <View style={styles.tipItem}>
-            <View style={styles.tipBullet} />
+            <View style={[styles.tipBullet, { backgroundColor: Colors.primary }]} />
             <Text style={styles.tipText}>Belajar materi berikutnya</Text>
           </View>
           <View style={styles.tipItem}>
-            <View style={styles.tipBullet} />
+            <View style={[styles.tipBullet, { backgroundColor: Colors.primary }]} />
             <Text style={styles.tipText}>Istirahat dan refreshing</Text>
           </View>
         </View>
@@ -68,13 +69,13 @@ const JadwalMatkul: React.FC<JadwalMatkulProps> = ({ schedules, selectedDay }) =
             <View style={styles.cardHeader}>
               <Text style={styles.courseName}>{item.course.name}</Text>
               <TouchableOpacity style={styles.moreButton}>
-                <Text style={styles.moreButtonText}>•••</Text>
+              <Ionicons name="ellipsis-vertical" size={18} color="#fff" />
               </TouchableOpacity>
             </View>
 
             {/* Subtitle */}
             <Text style={styles.subtitle}>
-              {item.course.code} • {item.room}
+              Ruang • {item.room}
             </Text>
 
             {/* Dosen */}
@@ -137,7 +138,7 @@ const styles = StyleSheet.create({
   },
   timelineContainer: {
     flexDirection: 'row',
-    marginBottom: 20,
+    marginBottom: 16,
   },
   timeContainer: {
     width: 50,
@@ -155,29 +156,28 @@ const styles = StyleSheet.create({
   },
   timelineWrapper: {
     alignItems: 'center',
-    marginHorizontal: 10,
+    width: 20,
   },
   timelineDot: {
-    width: 14,
-    height: 14,
-    borderRadius: 7,
-    backgroundColor: Colors.primary,
+    width: 12,
+    height: 12,
+    borderRadius: 6,
     zIndex: 1,
   },
   timelineLine: {
-    width: 2,
-    flex: 1,
-    backgroundColor: '#E0E0E0',
     position: 'absolute',
-    top: 14,
-    bottom: -20,
+    width: 2,
+    height: '100%', // Perpanjang garis
+    backgroundColor: '#E0E0E0',
+    top: 12,
   },
   card: {
     flex: 1,
+    backgroundColor: '#6B8CFF',
     borderRadius: 16,
     padding: 16,
-    backgroundColor: '#7B83EB',
-    elevation: 3,
+    marginLeft: 12,
+    elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -260,7 +260,7 @@ const styles = StyleSheet.create({
   emptyTitle: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.primary,
     marginBottom: 10,
   },
   emptyText: {
@@ -280,7 +280,7 @@ const styles = StyleSheet.create({
   emptyTipsText: {
     fontSize: 15,
     fontWeight: 'bold',
-    color: '#555',
+    color: Colors.primary,
     marginBottom: 12,
   },
   tipItem: {

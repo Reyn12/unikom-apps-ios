@@ -4,9 +4,10 @@ import Colors from '@/constants/Colors'
 
 interface HariProps {
   onSelectDay?: (day: string) => void;
+  activeDay?: string;
 }
 
-const Hari: React.FC<HariProps> = ({ onSelectDay }) => {
+const Hari: React.FC<HariProps> = ({ onSelectDay, activeDay }) => {
   const [hariData, setHariData] = useState<Array<{hari: string, tanggal: string, active: boolean}>>([])
   const [activeIndex, setActiveIndex] = useState(0)
   
@@ -31,6 +32,39 @@ const Hari: React.FC<HariProps> = ({ onSelectDay }) => {
     setHariData(data)
   }, [])
 
+  useEffect(() => {
+    if (activeDay && hariData.length > 0) {
+      // Konversi format hari dari schedule ke format di komponen Hari
+      const dayMap: {[key: string]: string} = {
+        'Minggu': 'Min',
+        'Senin': 'Sen',
+        'Selasa': 'Sel',
+        'Rabu': 'Rab',
+        'Kamis': 'Kam',
+        'Jumat': 'Jum',
+        'Sabtu': 'Sab'
+      };
+      
+      const shortDay = dayMap[activeDay];
+      if (shortDay) {
+        const index = hariData.findIndex(item => item.hari === shortDay);
+        
+        if (index !== -1 && index !== activeIndex) {
+          // Hanya update jika index berbeda dari activeIndex saat ini
+          const updatedData = hariData.map((item, idx) => ({
+            ...item,
+            active: idx === index
+          }));
+          
+          setHariData(updatedData);
+          setActiveIndex(index);
+          
+          // Tidak perlu panggil onSelectDay di sini karena ini dipicu oleh parent
+        }
+      }
+    }
+  }, [activeDay, hariData, activeIndex]);
+
   const handleDayPress = (index: number) => {
     // Update active state
     const updatedData = hariData.map((item, idx) => ({
@@ -51,10 +85,10 @@ const Hari: React.FC<HariProps> = ({ onSelectDay }) => {
     <View style={styles.container}>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {hariData.map((item, index) => (
-          <TouchableOpacity 
-            key={index} 
+          <TouchableOpacity
+            key={index}
             style={[
-              styles.hariItem, 
+              styles.hariItem,
               item.active && styles.activeItem
             ]}
             onPress={() => handleDayPress(index)}
@@ -74,42 +108,42 @@ const Hari: React.FC<HariProps> = ({ onSelectDay }) => {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    borderBottomWidth: 1,
-    paddingBottom: 16,
-    borderBottomColor: '#E0E0E0',
-  },
-  hariItem: {
-    alignItems: 'center',
-    paddingHorizontal: 15,
-    paddingVertical: 8,
-    marginHorizontal: 5,
-    position: 'relative',
-  },
-  hariText: {
-    fontSize: 14,
-    color: '#888',
-    marginBottom: 4,
-  },
-  tanggalText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  activeItem: {
-    // Tidak perlu background karena kita pakai garis bawah
-  },
-  activeText: {
-    color: Colors.primary,
-  },
-  activeLine: {
-    position: 'absolute',
-    bottom: 0,
-    height: 3,
-    width: '80%',
-    backgroundColor: Colors.primary,
-    borderRadius: 10,
-  }
+    container: {
+        borderBottomWidth: 1,
+        paddingBottom: 10,
+        borderBottomColor: '#E0E0E0',
+      },
+      hariItem: {
+        alignItems: 'center',
+        paddingHorizontal: 15,
+        paddingVertical: 8,
+        marginHorizontal: 5,
+        position: 'relative',
+      },
+      hariText: {
+        fontSize: 14,
+        color: '#888',
+        marginBottom: 4,
+      },
+      tanggalText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#333',
+      },
+      activeItem: {
+        // Tidak perlu background karena kita pakai garis bawah
+      },
+      activeText: {
+        color: Colors.primary,
+      },
+      activeLine: {
+        position: 'absolute',
+        bottom: 0,
+        height: 3,
+        width: '80%',
+        backgroundColor: Colors.primary,
+        borderRadius: 10,
+      }
 })
 
 export default Hari

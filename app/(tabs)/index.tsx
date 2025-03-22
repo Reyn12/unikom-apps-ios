@@ -1,4 +1,4 @@
-import { StyleSheet, ScrollView, View as RNView, View } from 'react-native';
+import { StyleSheet, ScrollView, View as RNView, View, RefreshControl } from 'react-native';
 import { Text } from '@/components/Themed';
 import { StatusBar as ExpoStatusBar } from 'expo-status-bar';
 import { StatusBar as RNStatusBar } from 'react-native';
@@ -14,6 +14,20 @@ import CardInfo from '@/components/homepage/CardInfo';
 import Colors from '@/constants/Colors';
 
 export default function TabOneScreen() {
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+  
+    // Di sini kamu bisa panggil API atau reload data
+    // Misalnya:
+    // fetchScheduleData().then(() => setRefreshing(false));
+  
+    // Simulasi loading
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 500);
+  }, []);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -33,7 +47,12 @@ export default function TabOneScreen() {
         <Header studentName="M RENALDI" showGreeting={false} />
 
         {/* Main Content Section - Nanti diisi dengan komponen-komponen lain */}
-        <ScrollView style={styles.mainSection}>
+        <ScrollView style={styles.mainSection} refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
+        }>
           {/* Greeting di dalam ScrollView */}
           <Text style={styles.greeting}>
             HALO, <Text style={styles.studentNameText}>M RENALDI</Text>
