@@ -5,14 +5,15 @@ import Header from '@/components/campus/Header';
 import Navbar from '@/components/campus/Navbar';
 import Berita from '@/components/campus/Berita';
 import Peta from '@/components/campus/Peta';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Fakultas from '@/components/campus/Fakultas';
+import { StatusBar as ExpoStatusBar } from 'expo-status-bar';
 
 export default function CampusScreen() {
   const [activeTab, setActiveTab] = useState('Berita');
 
   const renderContent = () => {
-    switch(activeTab) {
+    switch (activeTab) {
       case 'Berita':
         return <Berita />;
       case 'Peta':
@@ -23,20 +24,23 @@ export default function CampusScreen() {
         return <Berita />;
     }
   };
-  
+
   return (
-    <View style={styles.container}>
-      <Header />
-      <View style={styles.mainSection}>
-        <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
-        <View style={styles.mainSection2}>
-          <ScrollView>
-            {renderContent()}
-          </ScrollView>
+    <>
+      <ExpoStatusBar style="light" backgroundColor={Colors.primary} animated={true} />
+      <View style={styles.container}>
+        <Header />
+        <View style={styles.mainSection}>
+          <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
+          <View style={styles.mainSection2}>
+            <ScrollView>
+              {renderContent()}
+            </ScrollView>
+          </View>
         </View>
       </View>
-    </View>
-  );  
+    </>
+  );
 }
 
 const styles = StyleSheet.create({
