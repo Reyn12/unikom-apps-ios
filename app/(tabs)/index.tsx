@@ -1,4 +1,4 @@
-import { StyleSheet, ScrollView, View as RNView, View } from 'react-native';
+import { StyleSheet, ScrollView, View as RNView, View, RefreshControl } from 'react-native';
 import { Text } from '@/components/Themed';
 import { StatusBar as ExpoStatusBar } from 'expo-status-bar';
 import { StatusBar as RNStatusBar } from 'react-native';
@@ -11,8 +11,23 @@ import Pengumuman from '@/components/homepage/Pengumuman';
 import EventKampus from '@/components/homepage/EventKampus';
 import ForumDiskusi from '@/components/homepage/ForumDiskusi';
 import CardInfo from '@/components/homepage/CardInfo';
+import Colors from '@/constants/Colors';
 
 export default function TabOneScreen() {
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+  
+    // Di sini kamu bisa panggil API atau reload data
+    // Misalnya:
+    // fetchScheduleData().then(() => setRefreshing(false));
+  
+    // Simulasi loading
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 500);
+  }, []);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -26,13 +41,18 @@ export default function TabOneScreen() {
 
   return (
     <>
-      <ExpoStatusBar style="light" backgroundColor="#1E3A8A" animated={true}/>
+      <ExpoStatusBar style="light" backgroundColor={Colors.primary} animated={true}/>
       <RNView style={styles.container}>
         {/* Header Section - hanya logo dan icon */}
         <Header studentName="M RENALDI" showGreeting={false} />
 
         {/* Main Content Section - Nanti diisi dengan komponen-komponen lain */}
-        <ScrollView style={styles.mainSection}>
+        <ScrollView style={styles.mainSection} refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
+        }>
           {/* Greeting di dalam ScrollView */}
           <Text style={styles.greeting}>
             HALO, <Text style={styles.studentNameText}>M RENALDI</Text>
@@ -61,7 +81,7 @@ const styles = StyleSheet.create({
   },
   mainSection: {
     flex: 1,
-    backgroundColor: '#1E3A8A',
+    backgroundColor: Colors.primary,
     marginTop: -15,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
@@ -84,7 +104,7 @@ const styles = StyleSheet.create({
 
   // Main Section 2
   mainSection2: {
-    backgroundColor: '#FEFEFE', 
+    backgroundColor: Colors.putih, 
     padding: 16,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
