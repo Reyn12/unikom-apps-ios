@@ -4,6 +4,7 @@ import Colors from '@/constants/Colors';
 import Header from '@/components/campus/Header';
 import Navbar from '@/components/campus/Navbar';
 import Berita from '@/components/campus/Berita';
+import Peta from '@/components/campus/Peta';
 import { useState } from 'react';
 
 export default function CampusScreen() {
@@ -14,7 +15,7 @@ export default function CampusScreen() {
       case 'Berita':
         return <Berita />;
       case 'Peta':
-        return <Text style={styles.comingSoon}>Peta Kampus akan segera hadir</Text>;
+        return <Peta />;
       case 'Fakultas':
         return <Text style={styles.comingSoon}>Informasi Fakultas akan segera hadir</Text>;
       default:
