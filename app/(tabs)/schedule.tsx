@@ -1,16 +1,18 @@
-import { StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import { Text, View } from '@/components/Themed';
 import { StatusBar as ExpoStatusBar } from 'expo-status-bar';
 import { StatusBar as RNStatusBar } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import React from 'react';
+import Colors from '@/constants/Colors';
+import Header from '@/components/schedule/Header';
 
 export default function ScheduleScreen() {
 
   useFocusEffect(
     React.useCallback(() => {
       // Ini akan dijalankan saat screen mendapat fokus
-      RNStatusBar.setBarStyle('dark-content');    
+      RNStatusBar.setBarStyle('light-content');    
       return () => {
         // Cleanup jika perlu
       };
@@ -19,9 +21,15 @@ export default function ScheduleScreen() {
 
   return (
     <>
-    <ExpoStatusBar style="dark" backgroundColor="#1E3A8A" animated={true}/>
+    <ExpoStatusBar style="light" backgroundColor={Colors.primary} animated={true}/>
     <View style={styles.container}>
-      
+      <Header />
+      {/* Main Section */}
+      <View style={styles.mainSection}>
+        <ScrollView>
+          
+        </ScrollView>
+      </View>
     </View>
     </>
   );
@@ -30,6 +38,14 @@ export default function ScheduleScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FEFEFE',
+    backgroundColor: Colors.primary,
+  },
+  mainSection: {
+    flex: 1,
+    height: 2000,
+    backgroundColor: 'white',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    paddingTop: 16,
   },
 });

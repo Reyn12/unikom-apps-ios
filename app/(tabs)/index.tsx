@@ -11,6 +11,7 @@ import Pengumuman from '@/components/homepage/Pengumuman';
 import EventKampus from '@/components/homepage/EventKampus';
 import ForumDiskusi from '@/components/homepage/ForumDiskusi';
 import CardInfo from '@/components/homepage/CardInfo';
+import Colors from '@/constants/Colors';
 
 export default function TabOneScreen() {
 
@@ -26,7 +27,7 @@ export default function TabOneScreen() {
 
   return (
     <>
-      <ExpoStatusBar style="light" backgroundColor="#1E3A8A" animated={true}/>
+      <ExpoStatusBar style="light" backgroundColor={Colors.primary} animated={true}/>
       <RNView style={styles.container}>
         {/* Header Section - hanya logo dan icon */}
         <Header studentName="M RENALDI" showGreeting={false} />
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
   },
   mainSection: {
     flex: 1,
-    backgroundColor: '#1E3A8A',
+    backgroundColor: Colors.primary,
     marginTop: -15,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
@@ -84,7 +85,7 @@ const styles = StyleSheet.create({
 
   // Main Section 2
   mainSection2: {
-    backgroundColor: '#FEFEFE', 
+    backgroundColor: Colors.putih, 
     padding: 16,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
