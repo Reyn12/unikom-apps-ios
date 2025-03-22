@@ -3,6 +3,7 @@ export default {
 
   primary: '#1E3A8A',
   putih: '#FEFEFE',
+  abu: '#C0C0C0',
 
   // Colors
   light: {
