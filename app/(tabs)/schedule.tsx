@@ -7,8 +7,30 @@ import React from 'react';
 import Colors from '@/constants/Colors';
 import Header from '@/components/schedule/Header';
 import Hari from '@/components/schedule/Hari';
+import JadwalMatkul from '@/components/schedule/JadwalMatkul';
+import { schedules } from '@/data/schedules';
 
 export default function ScheduleScreen() {
+  const [selectedDay, setSelectedDay] = React.useState(() => {
+    const today = new Date();
+    const hariList = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+    return hariList[today.getDay()];
+  });
+  
+  const handleDaySelect = (day: string) => {
+    // Konversi format hari dari komponen Hari ke format di data schedules
+    const dayMap: {[key: string]: string} = {
+      'Min': 'Minggu',
+      'Sen': 'Senin',
+      'Sel': 'Selasa',
+      'Rab': 'Rabu',
+      'Kam': 'Kamis',
+      'Jum': 'Jumat',
+      'Sab': 'Sabtu'
+    };
+    
+    setSelectedDay(dayMap[day] || day);
+  };
 
   useFocusEffect(
     React.useCallback(() => {
@@ -28,8 +50,10 @@ export default function ScheduleScreen() {
       {/* Main Section */}
       <View style={styles.mainSection}>
         {/* Hari */}
-        <Hari />
+        <Hari onSelectDay={handleDaySelect} />
         <ScrollView>
+          {/* Jadwal Matkul */}
+          <JadwalMatkul schedules={schedules} selectedDay={selectedDay} />
         </ScrollView>
       </View>
     </View>
