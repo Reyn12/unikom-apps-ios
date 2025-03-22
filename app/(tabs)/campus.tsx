@@ -3,6 +3,7 @@ import { Text, View } from '@/components/Themed';
 import Colors from '@/constants/Colors';
 import Header from '@/components/campus/Header';
 import Navbar from '@/components/campus/Navbar';
+import Berita from '@/components/campus/Berita';
 
 export default function CampusScreen() {
   return (
@@ -12,7 +13,15 @@ export default function CampusScreen() {
         <Navbar />
         <View style={styles.mainSection2}>
           <ScrollView>
-            {/* Konten halaman disini */}
+
+            {/* Berita */}
+            <Berita />
+
+            {/* Peta */}
+
+            {/* Fakultas */}
+
+
           </ScrollView>
         </View>
       </View>
@@ -38,6 +47,5 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     paddingHorizontal: 15,
-    paddingTop: 15,
   },
 });
