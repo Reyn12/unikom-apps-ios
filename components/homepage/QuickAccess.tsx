@@ -2,18 +2,21 @@ import React from 'react';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { Text } from '@/components/Themed';
 import { BookOpen, GraduationCap, ClipboardList, Calendar } from 'lucide-react-native';
+import { Link } from 'expo-router';
 
-interface QuickAccessItemProps { 
+interface QuickAccessItemProps {
   icon: React.ReactNode;
   label: string;
   badge?: number;
   labelColor?: string;
-  onPress: () => void;
+  href: string;
 }
 
-const QuickAccessItem = ({ icon, label, badge, labelColor = '#fff', onPress }: QuickAccessItemProps) => {
-    return (
-      <TouchableOpacity style={styles.item} onPress={onPress}>
+const QuickAccessItem = ({ icon, label, badge, labelColor = '#fff', href }: QuickAccessItemProps) => {
+  return (
+    // @ts-expect-error: String URLs are not fully typed in expo-router
+    <Link href={href} asChild>
+      <TouchableOpacity style={styles.item}>
         <View style={styles.iconContainer}>
           {icon}
           {badge && (
@@ -24,8 +27,9 @@ const QuickAccessItem = ({ icon, label, badge, labelColor = '#fff', onPress }: Q
         </View>
         <Text style={[styles.label, { color: labelColor }]}>{label}</Text>
       </TouchableOpacity>
-    );
-  };
+    </Link>
+  );
+};
 
 const QuickAccess = () => {
   return (
@@ -33,31 +37,31 @@ const QuickAccess = () => {
       <Text style={styles.title}>Quick Access</Text>
       <View style={styles.container}>
         <View style={styles.itemsContainer}>
-          <QuickAccessItem 
-            icon={<ClipboardList size={24} color="#1E3A8A" />} 
+          <QuickAccessItem
+            icon={<ClipboardList size={24} color="#1E3A8A" />}
             label="Tugas"
             badge={3}
             labelColor="#000"
-            onPress={() => {}} 
+            href="/homepage/tugas/tugas"
           />
-          <QuickAccessItem 
-            icon={<BookOpen size={24} color="#1E3A8A" />} 
-            label="Materi" 
+          <QuickAccessItem
+            icon={<BookOpen size={24} color="#1E3A8A" />}
+            label="Materi"
             badge={12}
             labelColor="#000"
-            onPress={() => {}} 
+            href='/homepage/materi/index'
           />
-          <QuickAccessItem 
-            icon={<GraduationCap size={24} color="#1E3A8A" />} 
-            label="Nilai" 
+          <QuickAccessItem
+            icon={<GraduationCap size={24} color="#1E3A8A" />}
+            label="Nilai"
             labelColor="#000"
-            onPress={() => {}} 
+            href='/homepage/nilai'
           />
-          <QuickAccessItem 
-            icon={<Calendar size={24} color="#1E3A8A" />} 
-            label="Kalender" 
+          <QuickAccessItem
+            icon={<Calendar size={24} color="#1E3A8A" />}
+            label="Kalender"
             labelColor="#000"
-            onPress={() => {}} 
+            href='/homepage/kalender'
           />
         </View>
       </View>
