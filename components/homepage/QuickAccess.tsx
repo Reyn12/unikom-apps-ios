@@ -49,19 +49,19 @@ const QuickAccess = () => {
             label="Materi"
             badge={12}
             labelColor="#000"
-            href='/homepage/materi/index'
+            href='/'
           />
           <QuickAccessItem
             icon={<GraduationCap size={24} color="#1E3A8A" />}
             label="Nilai"
             labelColor="#000"
-            href='/homepage/nilai'
+            href='/'
           />
           <QuickAccessItem
             icon={<Calendar size={24} color="#1E3A8A" />}
             label="Kalender"
             labelColor="#000"
-            href='/homepage/kalender'
+            href='/'
           />
         </View>
       </View>

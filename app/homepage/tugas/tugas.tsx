@@ -1,12 +1,13 @@
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { router } from 'expo-router'
-import { ChevronLeft } from 'lucide-react-native'
+import { ChevronLeft, BookOpen, Clock, Eye } from 'lucide-react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar as ExpoStatusBar } from 'expo-status-bar';
 import Colors from '@/constants/Colors';
+import { dummyTasks } from '@/data/tugas';
 
-export default function TugasScreen() {
+function TugasScreen() {
   return (
     <>
       <ExpoStatusBar style="light" backgroundColor={Colors.primary} animated={true} />
@@ -19,14 +20,51 @@ export default function TugasScreen() {
             </TouchableOpacity>
           </View>
           <ScrollView style={styles.mainSection}>
-            {/* Contoh daftar tugas */}
-            {[...Array(20)].map((_, index) => (
-              <View key={index} style={styles.taskItem}>
-                <View style={styles.taskContent}>
-                  <Text style={styles.taskTitle}>Tugas #{index + 1}</Text>
-                  <Text style={styles.taskDesc}>Deskripsi tugas yang harus dikerjakan</Text>
-                  <Text style={styles.taskDate}>Deadline: 30 Maret 2025</Text>
+            {dummyTasks.map((task) => (
+              <View key={task.id} style={styles.taskCard}>
+                <View style={styles.taskHeader}>
+                  <Text style={styles.taskTitle}>{task.title}</Text>
+                  <View style={[
+                    styles.priorityBadge,
+                    task.priority === 'Tinggi' ? styles.highPriority : styles.mediumPriority
+                  ]}>
+                    <Text style={styles.priorityText}>Prioritas {task.priority}</Text>
+                  </View>
                 </View>
+
+                <View style={styles.subjectRow}>
+                  <BookOpen size={16} color={Colors.primary} />
+                  <Text style={styles.subjectText}>{task.subject}</Text>
+                </View>
+
+                <Text style={styles.taskDesc}>{task.description}</Text>
+
+                <View style={styles.deadlineRow}>
+                  <Clock size={16} color="#666" />
+                  <Text style={styles.taskDate}>Deadline: {task.deadline}</Text>
+                </View>
+
+                <View style={styles.statusSection}>
+                  <Text style={[
+                    styles.statusText,
+                    task.status === 'Belum dikerjakan' ? styles.statusPending : styles.statusInProgress
+                  ]}>
+                    {task.status}
+                  </Text>
+
+                  {task.progress > 0 && (
+                    <View style={styles.progressContainer}>
+                      <View style={[styles.progressBar, { width: `${task.progress}%` }]} />
+
+                    </View>
+                  )}
+                  <Text style={styles.progressText}>{task.progress}% selesai</Text>
+                </View>
+
+                <TouchableOpacity style={styles.detailButton}>
+                  <Eye size={16} color={Colors.primary} />
+                  <Text style={styles.detailButtonText}>Lihat Detail</Text>
+                </TouchableOpacity>
               </View>
             ))}
           </ScrollView>
@@ -66,36 +104,122 @@ const styles = StyleSheet.create({
     marginTop: -35,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
+    paddingTop: 15,
   },
-  taskItem: {
+  taskCard: {
     backgroundColor: Colors.putih,
     borderRadius: 10,
     marginHorizontal: 16,
-    marginBottom: 12,
+    marginBottom: 16,
     padding: 16,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
+    borderWidth: 1,
+    borderColor: '#f0f0f0',
   },
-  taskContent: {
-    flex: 1,
+  taskHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10,
   },
   taskTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 4,
     color: Colors.primary,
+  },
+  priorityBadge: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 4,
+  },
+  highPriority: {
+    backgroundColor: '#ffebee',
+  },
+  mediumPriority: {
+    backgroundColor: '#fff8e1',
+  },
+  priorityText: {
+    fontSize: 12,
+    fontWeight: '500',
+    color: '#d32f2f',
+  },
+  subjectRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  subjectText: {
+    fontSize: 14,
+    color: Colors.primary,
+    marginLeft: 6,
+    fontWeight: '500',
   },
   taskDesc: {
     fontSize: 14,
-    color: '#666',
-    marginBottom: 8,
+    color: '#333',
+    marginBottom: 12,
+    lineHeight: 20,
+  },
+  deadlineRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 12,
   },
   taskDate: {
-    fontSize: 12,
-    color: '#999',
+    fontSize: 13,
+    color: '#666',
+    marginLeft: 6,
+  },
+  statusSection: {
+    marginBottom: 12,
+  },
+  statusText: {
+    fontSize: 13,
     fontWeight: '500',
-  }
-})
+    marginBottom: 4,
+  },
+  statusPending: {
+    color: '#f44336',
+  },
+  statusInProgress: {
+    color: '#ff9800',
+  },
+  progressContainer: {
+    backgroundColor: '#f5f5f5',
+    borderRadius: 4,
+    marginTop: 4,
+    marginBottom: 10,
+    position: 'relative',
+  },
+  progressBar: {
+    height: 8,
+    backgroundColor: '#2196f3',
+    borderRadius: 4,
+  },
+  progressText: {
+    fontSize: 12,
+    color: '#666',
+    alignSelf: 'flex-end',
+  },
+  detailButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 8,
+    borderTopWidth: 1,
+    borderTopColor: '#f0f0f0',
+    marginTop: 4,
+  },
+  detailButtonText: {
+    color: Colors.primary,
+    fontSize: 14,
+    fontWeight: '500',
+    marginLeft: 6,
+  },
+});
+
+export default TugasScreen;
