@@ -7,7 +7,6 @@ import { useEffect } from 'react';
 import 'react-native-reanimated';
 import 'react-native-gesture-handler';
 
-
 import { useColorScheme } from '@/components/useColorScheme';
 
 export {
@@ -55,7 +54,16 @@ function RootLayoutNav() {
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-        <Stack.Screen name="homepage/tugas/tugas" options={{ headerShown: false }} />
+
+        {/* Home Screen Stack */}
+        <Stack.Screen name="homepage/tugas/tugas" options={{ 
+          headerShown: false,
+          animation: 'slide_from_right' 
+          }} />
+        <Stack.Screen name="homepage/materi/materi" options={{ 
+          headerShown: false,
+          animation: 'slide_from_right' 
+          }} />
       </Stack>
     </ThemeProvider>
   );

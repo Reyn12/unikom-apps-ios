@@ -49,7 +49,7 @@ const QuickAccess = () => {
             label="Materi"
             badge={12}
             labelColor="#000"
-            href='/'
+            href='/homepage/materi/materi'
           />
           <QuickAccessItem
             icon={<GraduationCap size={24} color="#1E3A8A" />}

@@ -12,7 +12,7 @@ function TugasScreen() {
     <>
       <ExpoStatusBar style="light" backgroundColor={Colors.primary} animated={true} />
       <SafeAreaView style={{ flex: 1, backgroundColor: Colors.primary }} edges={['top']}>
-        <View style={styles.container}>
+        <View style={[styles.container, { backgroundColor: Colors.primary }]}>
           <View style={styles.header}>
             <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
               <ChevronLeft size={25} color={Colors.putih} />
@@ -77,7 +77,6 @@ function TugasScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.putih,
   },
   header: {
     flexDirection: 'row',
@@ -101,7 +100,7 @@ const styles = StyleSheet.create({
   mainSection: {
     flex: 1,
     backgroundColor: Colors.putih,
-    marginTop: -35,
+    marginTop: -40,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     paddingTop: 15,
