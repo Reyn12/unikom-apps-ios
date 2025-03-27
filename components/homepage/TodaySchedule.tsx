@@ -20,7 +20,8 @@ const TodaySchedule = () => {
     //             endTime: '09:30',
     //             room: 'R5407 • IF-1/SI/VI',
     //             lecturer: 'Irawan Afrianto',
-    //             day: 'Kamis'
+    //             day: 'Kamis',
+    //             status: 'Akan Datang'  // Tambah status
     //         },
     //         {
     //             id: 2,
@@ -29,39 +30,91 @@ const TodaySchedule = () => {
     //             endTime: '17:00',
     //             room: 'LAB-5 • P.ANDRO-3',
     //             lecturer: 'Rizki Adam Kurniawan',
-    //             day: 'Kamis'
+    //             day: 'Kamis',
+    //             status: 'Selesai'  // Tambah status
     //         }
     //     ];
 
-    //     // Untuk testing, kita hardcode saja
-    //     setCurrentSchedules([dummySchedules[1]]);  // Tampilkan kelas sedang berlangsung
-    //     // setCurrentSchedules([]);  // Tampilkan tidak ada kelas berlangsung
+    //     // Pisahkan jadwal berdasarkan status
+    //     const ongoingClasses = dummySchedules.filter(s => s.status === "Sedang Berlangsung");
+    //     const upcomingClasses = dummySchedules.filter(s => s.status === "Akan Datang");
+    //     const finishedClasses = dummySchedules.filter(s => s.status === "Selesai");
 
-    //     setUpcomingSchedules([dummySchedules[0]]);
-
+    //     // Logika untuk menentukan apa yang ditampilkan
+    //     if (ongoingClasses.length > 0) {
+    //         // Ada kelas yang sedang berlangsung
+    //         setCurrentSchedules(ongoingClasses);
+    //         setUpcomingSchedules([...upcomingClasses, ...finishedClasses]);
+    //     } else if (finishedClasses.length > 0) {
+    //         // Tidak ada kelas berlangsung, tapi ada kelas yang sudah selesai
+    //         setCurrentSchedules([]); // Kosong untuk menampilkan "Tidak ada kelas berlangsung"
+    //         setUpcomingSchedules([...upcomingClasses, ...finishedClasses]);
+    //     } else {
+    //         // Hanya ada kelas yang akan datang atau tidak ada kelas sama sekali
+    //         setCurrentSchedules([]);
+    //         setUpcomingSchedules(upcomingClasses);
+    //     }
     // }, []);
 
-    // useEffect(() => {
-    //     // Di sini kamu bisa ambil jadwal dari API atau data lokal
-    //     const schedules = getTodaySchedules();
-
-    //     // Contoh logika untuk memisahkan jadwal yang sedang berlangsung dan yang akan datang
-    //     // Ini cuma contoh, kamu perlu sesuaikan dengan struktur data kamu
-    //     const now = new Date();
-    //     const current = schedules.filter(schedule => {
-    //         const startTime = new Date(`${now.toDateString()} ${schedule.startTime}`);
-    //         const endTime = new Date(`${now.toDateString()} ${schedule.endTime}`);
-    //         return now >= startTime && now <= endTime;
-    //     });
-
-    //     const upcoming = schedules.filter(schedule => {
-    //         const startTime = new Date(`${now.toDateString()} ${schedule.startTime}`);
-    //         return now < startTime;
-    //     }).slice(0, 3); // Ambil 3 jadwal berikutnya saja
-
-    //     setCurrentSchedules(current);
-    //     setUpcomingSchedules(upcoming);
-    // }, []);
+    // Real Case
+    useEffect(() => {
+        const rawSchedules = getTodaySchedules();
+        
+        // Ambil waktu sekarang sekali saja
+        const now = new Date();
+        now.setHours(9, 55, 0); // Untuk testing
+        
+        // Ubah format data
+        const schedules = rawSchedules.map(item => {
+            // Parse waktu dengan benar
+            const [startHour, startMinute] = item.startTime.split('.');
+            const [endHour, endMinute] = item.endTime.split('.');
+            
+            const startTime = new Date(now);
+            startTime.setHours(parseInt(startHour), parseInt(startMinute), 0);
+            
+            const endTime = new Date(now);
+            endTime.setHours(parseInt(endHour), parseInt(endMinute), 0);
+            
+            let status = "Akan Datang";
+            if (now >= startTime && now <= endTime) {
+                status = "Sedang Berlangsung";
+            } else if (now > endTime) {
+                status = "Selesai";
+            }
+            
+            return {
+                id: item.id,
+                courseName: item.course.name,
+                startTime: item.startTime.replace('.', ':'),
+                endTime: item.endTime.replace('.', ':'),
+                room: `${item.room} • ${item.class}`,
+                lecturer: item.lecturer.name,
+                day: item.day,
+                status: status
+            };
+        });
+        
+        // Pisahkan jadwal berdasarkan status
+        const ongoingClasses = schedules.filter(s => s.status === "Sedang Berlangsung");
+        const upcomingClasses = schedules.filter(s => s.status === "Akan Datang");
+        const finishedClasses = schedules.filter(s => s.status === "Selesai");
+        
+        // Logika untuk menentukan apa yang ditampilkan
+        if (ongoingClasses.length > 0) {
+            // Ada kelas yang sedang berlangsung
+            setCurrentSchedules(ongoingClasses);
+            setUpcomingSchedules([...upcomingClasses, ...finishedClasses]);
+        } else if (finishedClasses.length > 0) {
+            // Tidak ada kelas berlangsung, tapi ada kelas yang sudah selesai
+            setCurrentSchedules([]); // Kosong untuk menampilkan "Tidak ada kelas berlangsung"
+            setUpcomingSchedules([...upcomingClasses, ...finishedClasses]);
+        } else {
+            // Hanya ada kelas yang akan datang atau tidak ada kelas sama sekali
+            setCurrentSchedules([]);
+            setUpcomingSchedules(upcomingClasses);
+        }
+    }, []);
 
     const formatTime = (start: string, end: string) => {
         return `${start} - ${end}`;
@@ -80,7 +133,6 @@ const TodaySchedule = () => {
             </View>
 
             <ScrollView showsVerticalScrollIndicator={false}>
-
                 {/* Ongoing Schedules */}
                 {currentSchedules.length > 0 ? (
                     currentSchedules.map((schedule, index) => (
@@ -90,7 +142,7 @@ const TodaySchedule = () => {
                             <View style={styles.ongoingContent}>
                                 <View style={styles.statusContainer}>
                                     <View style={styles.onGoingContainer}>
-                                    <Text style={styles.statusText}>Sedang Berlangsung</Text>
+                                        <Text style={styles.statusText}>Sedang Berlangsung</Text>
                                     </View>
                                     <Text style={styles.timeText}>{formatTime(schedule.startTime, schedule.endTime)}</Text>
                                 </View>
@@ -122,10 +174,13 @@ const TodaySchedule = () => {
                         </View>
                     ))
                 ) : (
-                    <View style={styles.noClassCard}>
-                        <Coffee size={40} color="#666" />
-                        <Text style={styles.noClassText}>Tidak ada kelas berlangsung</Text>
-                    </View>
+                    // Tampilkan "Tidak ada kelas berlangsung" hanya jika ada kelas yang akan datang
+                    upcomingSchedules.every(s => s.status !== "Selesai") && (
+                        <View style={styles.noClassCard}>
+                            <Coffee size={40} color="#666" />
+                            <Text style={styles.noClassText}>Tidak ada kelas berlangsung</Text>
+                        </View>
+                    )
                 )}
 
                 {/* Upcoming Schedules */}
