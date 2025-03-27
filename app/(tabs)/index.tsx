@@ -19,8 +19,7 @@ export default function TabOneScreen() {
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
   
-    // Di sini kamu bisa panggil API atau reload data
-    // Misalnya:
+    // Fetch data (Coming Soon)
     // fetchScheduleData().then(() => setRefreshing(false));
   
     // Simulasi loading
@@ -31,10 +30,9 @@ export default function TabOneScreen() {
 
   useFocusEffect(
     React.useCallback(() => {
-      // Ini akan dijalankan saat screen mendapat fokus
       RNStatusBar.setBarStyle('light-content');
       return () => {
-        // Cleanup jika perlu
+        // Cleanup cache coming soon
       };
     }, [])
   );
@@ -43,7 +41,6 @@ export default function TabOneScreen() {
     <>
       <ExpoStatusBar style="light" backgroundColor={Colors.primary} animated={true}/>
       <RNView style={styles.container}>
-        {/* Header Section - hanya logo dan icon */}
         <Header studentName="M RENALDI" showGreeting={false} />
 
         {/* Main Content Section - Nanti diisi dengan komponen-komponen lain */}

@@ -51,19 +51,7 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === 'light' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-
-        {/* Home Screen Stack */}
-        <Stack.Screen name="homepage/tugas/tugas" options={{ 
-          headerShown: false,
-          animation: 'slide_from_right' 
-          }} />
-        <Stack.Screen name="homepage/materi/materi" options={{ 
-          headerShown: false,
-          animation: 'slide_from_right' 
-          }} />
+      <Stack screenOptions={{ headerShown: false, animation: 'slide_from_right' }}>
       </Stack>
     </ThemeProvider>
   );
