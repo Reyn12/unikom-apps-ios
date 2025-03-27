@@ -62,7 +62,9 @@ const TodaySchedule = () => {
         
         // Ambil waktu sekarang sekali saja
         const now = new Date();
-        now.setHours(9, 55, 0); // Untuk testing
+
+        // Testing Data Date
+        // now.setHours(9, 55, 0); 
         
         // Ubah format data
         const schedules = rawSchedules.map(item => {
