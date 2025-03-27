@@ -55,7 +55,7 @@ const QuickAccess = () => {
             icon={<GraduationCap size={24} color="#1E3A8A" />}
             label="Nilai"
             labelColor="#000"
-            href='/'
+            href='/homepage/nilai/nilai'
           />
           <QuickAccessItem
             icon={<Calendar size={24} color="#1E3A8A" />}

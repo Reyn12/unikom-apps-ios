@@ -1,236 +1,334 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, TouchableOpacity, ScrollView } from 'react-native';
 import { Text } from '@/components/Themed';
 import { getMondaySchedules, getTodaySchedules, getTomorrowSchedules } from '@/data/schedules';
-import { Calendar, Clock, Coffee, MapPin, User } from 'lucide-react-native';
+import { Calendar, Coffee, MapPin, User } from 'lucide-react-native';
+import Colors from '@/constants/Colors';
 
 const TodaySchedule = () => {
-    const [expanded, setExpanded] = useState(false);
+    const [currentSchedules, setCurrentSchedules] = useState<any[]>([]);
+    const [upcomingSchedules, setUpcomingSchedules] = useState<any[]>([]);
 
-    // Testing nanti ganti jd getTodaySchedules()
-    const todaySchedules = getTodaySchedules();
-    const tomorrowSchedules = getTomorrowSchedules();
+    useEffect(() => {
+        // Data dummy untuk testing
+        const dummySchedules = [
+            {
+                id: 1,
+                courseName: 'Keamanan Big Data',
+                startTime: '07:00',
+                endTime: '09:30',
+                room: 'R5407 • IF-1/SI/VI',
+                lecturer: 'Irawan Afrianto',
+                day: 'Kamis'
+            },
+            {
+                id: 2,
+                courseName: 'Pemrograman Android',
+                startTime: '14:30',
+                endTime: '17:00',
+                room: 'LAB-5 • P.ANDRO-3',
+                lecturer: 'Rizki Adam Kurniawan',
+                day: 'Kamis'
+            }
+        ];
+
+        // Untuk testing, kita hardcode saja
+        setCurrentSchedules([dummySchedules[0]]);  // Tampilkan kelas sedang berlangsung
+        // setCurrentSchedules([]);  // Tampilkan tidak ada kelas berlangsung
+
+        setUpcomingSchedules([dummySchedules[1]]);
+
+    }, []);
+
+    // useEffect(() => {
+    //     // Di sini kamu bisa ambil jadwal dari API atau data lokal
+    //     const schedules = getTodaySchedules();
+
+    //     // Contoh logika untuk memisahkan jadwal yang sedang berlangsung dan yang akan datang
+    //     // Ini cuma contoh, kamu perlu sesuaikan dengan struktur data kamu
+    //     const now = new Date();
+    //     const current = schedules.filter(schedule => {
+    //         const startTime = new Date(`${now.toDateString()} ${schedule.startTime}`);
+    //         const endTime = new Date(`${now.toDateString()} ${schedule.endTime}`);
+    //         return now >= startTime && now <= endTime;
+    //     });
+
+    //     const upcoming = schedules.filter(schedule => {
+    //         const startTime = new Date(`${now.toDateString()} ${schedule.startTime}`);
+    //         return now < startTime;
+    //     }).slice(0, 3); // Ambil 3 jadwal berikutnya saja
+
+    //     setCurrentSchedules(current);
+    //     setUpcomingSchedules(upcoming);
+    // }, []);
+
+    const formatTime = (start: string, end: string) => {
+        return `${start} - ${end}`;
+    };
 
     return (
-        <View style={styles.card}>
-            <View style={styles.cardHeader}>
-                <View style={styles.cardHeaderTextContainer}>
-                    <Calendar size={18} color="#FFFFFF" />
-                    <Text style={styles.cardHeaderText}>Jadwal Hari Ini</Text>
+        <View style={styles.container}>
+            <View style={styles.header}>
+                <View style={styles.titleContainer}>
+                    <Calendar size={20} color={Colors.putih} />
+                    <Text style={styles.title}>Jadwal Hari Ini</Text>
                 </View>
+                <TouchableOpacity>
+                    <Text style={styles.viewAll}>Lihat Semua</Text>
+                </TouchableOpacity>
             </View>
 
-            <View style={styles.cardContent}>
-                {todaySchedules.length > 0 ? (
-                    <>
-                        <View style={styles.scheduleItem}>
-                            <Text style={styles.scheduleSubject}>{todaySchedules[0].course.name}</Text>
-                            <View style={styles.scheduleTimeContainer}>
-                                <Clock size={16} color="#3B82F6" />
-                                <Text style={styles.scheduleTime}>{todaySchedules[0].startTime} - {todaySchedules[0].endTime}</Text>
-                            </View>
-                            <View style={styles.scheduleRoomContainer}>
-                                <MapPin size={16} color="#3B82F6" />
-                                <Text style={styles.scheduleRoom}>{todaySchedules[0].room} • {todaySchedules[0].class}</Text>
-                            </View>
-                            <View style={styles.lecturerContainer}>
-                                <User size={16} color="#3B82F6" />
-                                <Text style={styles.lecturerName}>{todaySchedules[0].lecturer.name}</Text>
+            <ScrollView showsVerticalScrollIndicator={false}>
+
+                {/* Ongoing Schedules */}
+                {currentSchedules.length > 0 ? (
+                    currentSchedules.map((schedule, index) => (
+                        <View key={index} style={styles.ongoingCard}>
+                            <View style={styles.leftBorder} />
+
+                            <View style={styles.ongoingContent}>
+                                <View style={styles.statusContainer}>
+                                    <View style={styles.onGoingContainer}>
+                                    <Text style={styles.statusText}>Sedang Berlangsung</Text>
+                                    </View>
+                                    <Text style={styles.timeText}>{formatTime(schedule.startTime, schedule.endTime)}</Text>
+                                </View>
+
+                                <Text style={styles.courseName}>{schedule.courseName}</Text>
+
+                                <View style={styles.infoContainer}>
+                                    <View style={styles.infoItemWrapper}>
+                                        <View style={styles.iconContainer}>
+                                            <MapPin size={16} color="#fff" />
+                                        </View>
+                                        <View style={styles.infoTextContainer}>
+                                            <Text style={styles.infoLabel}>Ruangan</Text>
+                                            <Text style={styles.infoText}>{schedule.room}</Text>
+                                        </View>
+                                    </View>
+
+                                    <View style={styles.infoItemWrapper}>
+                                        <View style={styles.iconContainer}>
+                                            <User size={16} color="#fff" />
+                                        </View>
+                                        <View style={styles.infoTextContainer}>
+                                            <Text style={styles.infoLabel}>Dosen</Text>
+                                            <Text style={styles.infoText}>{schedule.lecturer}</Text>
+                                        </View>
+                                    </View>
+                                </View>
                             </View>
                         </View>
-
-                        {todaySchedules.length > 1 && (
-                            <>
-                                <TouchableOpacity
-                                    style={styles.expandButton}
-                                    onPress={() => setExpanded(!expanded)}
-                                >
-                                    <Text style={styles.expandButtonText}>
-                                        {expanded ? "Sembunyikan jadwal" : `Lihat ${todaySchedules.length - 1} jadwal lainnya`}
-                                    </Text>
-                                </TouchableOpacity>
-
-                                {expanded && (
-                                    <View style={styles.otherSchedules}>
-                                        {todaySchedules.slice(1).map((schedule) => (
-                                            <View key={schedule.id} style={styles.otherScheduleItem}>
-                                                <Text style={styles.otherScheduleSubject}>
-                                                    {schedule.course.name}
-                                                </Text>
-                                                <View style={styles.scheduleTimeContainer}>
-                                                    <Clock size={12} color="#4B5563" />
-                                                    <Text style={styles.otherScheduleTime}>
-                                                        {schedule.startTime} - {schedule.endTime}
-                                                    </Text>
-                                                </View>
-
-                                                <View style={styles.scheduleRoomContainer}>
-                                                    <MapPin size={10} color="#6B7280" />
-                                                    <Text style={styles.otherScheduleRoom}>
-                                                        {schedule.room} • {schedule.class}
-                                                    </Text>
-                                                </View>
-                                                <View style={styles.lecturerContainer}>
-                                                    <User size={10} color="#4B5563" />
-                                                    <Text style={styles.otherScheduleLecturer}>
-                                                        {schedule.lecturer.name}
-                                                    </Text>
-                                                </View>
-                                            </View>
-                                        ))}
-                                    </View>
-                                )}
-                            </>
-                        )}
-                    </>
+                    ))
                 ) : (
-                    <View style={styles.emptyScheduleContainer}>
-                        <Coffee size={40} color="#9CA3AF" />
-                        <Text style={styles.emptySchedule}>Tidak ada jadwal hari ini</Text>
+                    <View style={styles.noClassCard}>
+                        <Coffee size={24} color="#666" />
+                        <Text style={styles.noClassText}>Tidak ada kelas berlangsung</Text>
                     </View>
                 )}
 
-                {tomorrowSchedules.length > 0 && (
-                    <View style={styles.tomorrowContainer}>
-                        <Text style={styles.tomorrowTitle}>Besok:</Text>
-                        <Text style={styles.tomorrowSchedule}>
-                            {tomorrowSchedules[0].course.name} ({tomorrowSchedules[0].startTime})
-                        </Text>
+                {/* Upcoming Schedules */}
+                {upcomingSchedules.map((schedule, index) => (
+                    <View key={index} style={styles.upcomingCard}>
+                        <View style={styles.upcomingTimeContainer}>
+                            <Text style={styles.upcomingStartTime}>{schedule.startTime}</Text>
+                            <View style={styles.timeSeparator} />
+                            <Text style={styles.upcomingEndTime}>{schedule.endTime}</Text>
+                        </View>
+
+                        <View style={styles.upcomingDetails}>
+                            <Text style={styles.upcomingCourseName}>{schedule.courseName}</Text>
+                            <View style={styles.upcomingInfoColumn}>
+                                <View style={styles.upcomingInfoItem}>
+                                    <MapPin size={14} color={Colors.primary} />
+                                    <Text style={styles.upcomingInfoText}>{schedule.room}</Text>
+                                </View>
+
+                                <View style={styles.upcomingInfoItem}>
+                                    <User size={14} color={Colors.primary} />
+                                    <Text style={styles.upcomingInfoText}>{schedule.lecturer}</Text>
+                                </View>
+                            </View>
+                        </View>
                     </View>
-                )}
-            </View>
+                ))}
+            </ScrollView>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    card: {
-        backgroundColor: 'transparent',
-        borderRadius: 10,
-        overflow: 'hidden',
-        marginTop: 15,
-        marginHorizontal: 20
-    },
-    cardHeader: {
-        backgroundColor: '#60A5FA', // Tetap biru muda
-        padding: 10,
-    },
-    cardHeaderTextContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 8,
-    },
-    cardHeaderText: {
-        color: '#FFFFFF',
-        fontWeight: 'bold',
-        fontSize: 16,
-    },
-    cardContent: {
-        backgroundColor: '#FFFFFF',
-        padding: 15,
-    },
-    scheduleItem: {
-        marginBottom: 10,
-    },
-    scheduleSubject: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: '#1F2937',
-        marginBottom: 5,
-    },
-    scheduleTimeContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 8,
-        marginBottom: 5,
-    },
-    scheduleTime: {
-        fontSize: 14,
-        color: '#4B5563',
-    },
-    scheduleRoomContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 8,
-        marginBottom: 5,
-    },
-    scheduleRoom: {
-        fontSize: 14,
-        color: '#4B5563',
-    },
-    lecturerContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 8,
-    },
-    lecturerName: {
-        fontSize: 14,
-        color: '#4B5563',
-    },
-    expandButton: {
-        alignItems: 'center',
-        paddingVertical: 8,
-        marginVertical: 5,
-        backgroundColor: '#F3F4F6',
-        borderRadius: 5,
-    },
-    expandButtonText: {
-        color: '#3B82F6',
-        fontWeight: '500',
-    },
-    otherSchedules: {
+    container: {
         marginTop: 10,
+        paddingHorizontal: 16,
     },
-    otherScheduleItem: {
-        padding: 10,
-        backgroundColor: '#F3F4F6',
-        borderRadius: 8,
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 12,
+    },
+    titleContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 6,
+    },
+    title: {
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
+    viewAll: {
+        fontSize: 14,
+        color: Colors.putih,
+        fontWeight: '500',
+        borderWidth: 1,
+        borderColor: Colors.secondary,
+        borderRadius: 6,
+        padding: 8,
+    },
+    ongoingCard: {
+        backgroundColor: Colors.secondary,
+        borderRadius: 12,
+        marginBottom: 16,
+        flexDirection: 'row',
+        overflow: 'hidden',
+    },
+    leftBorder: {
+        width: 6,
+        backgroundColor: Colors.hijau,
+    },
+    ongoingContent: {
+        flex: 1,
+        padding: 16,
+    },
+    statusContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         marginBottom: 8,
     },
-    otherScheduleSubject: {
+    onGoingContainer: {
+        backgroundColor: Colors.hijau,
+        paddingHorizontal: 12,
+        paddingVertical: 6,
+        borderRadius: 20,
+    },
+    statusText: {
+        color: '#fff',
         fontSize: 14,
+        fontWeight: '500',
+    },
+    timeText: {
+        color: '#fff',
+        fontSize: 14,
+        opacity: 0.8,
+    },
+    courseName: {
+        color: '#fff',
+        fontSize: 20,
         fontWeight: 'bold',
-        color: '#1F2937',
-        marginBottom: 3,
+        marginBottom: 16,
     },
-    otherScheduleTime: {
+    infoContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    infoItemWrapper: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    iconContainer: {
+        width: 32,
+        height: 32,
+        borderRadius: 16,
+        backgroundColor: 'rgba(0,0,0,0.2)', // Background biru gelap untuk icon
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 8,
+    },
+    infoTextContainer: {
+        flexDirection: 'column',
+    },
+    infoLabel: {
+        color: '#fff',
         fontSize: 12,
-        color: '#4B5563',
+        opacity: 0.8,
     },
-    otherScheduleRoom: {
-        fontSize: 12,
-        color: '#4B5563',
-    },
-    otherScheduleLecturer: {
-        fontSize: 12,
-        color: '#4B5563',
-    },
-    emptySchedule: {
-        textAlign: 'center',
-        color: '#9CA3AF',
-        marginTop: 10,
+    infoText: {
+        color: '#fff',
         fontSize: 14,
+        fontWeight: '500',
     },
-    tomorrowContainer: {
-        marginTop: 15,
-        paddingTop: 15,
-        borderTopWidth: 1,
-        borderTopColor: '#E5E7EB',
-    },
-    tomorrowTitle: {
-        fontSize: 14,
-        fontWeight: 'bold',
-        color: '#1F2937',
-        marginBottom: 5,
-    },
-    tomorrowSchedule: {
-        fontSize: 14,
-        color: '#4B5563',
-    },
-    emptyScheduleContainer: {
+    noClassCard: {
+        backgroundColor: '#f5f5f5',
+        borderRadius: 12,
+        padding: 20,
+        marginBottom: 16,
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 20,
+    },
+    noClassText: {
+        marginTop: 8,
+        color: '#666',
+        fontSize: 14,
+    },
+
+    // Upcoming Schedule
+    upcomingCard: {
+        backgroundColor: '#fff',
+        borderRadius: 12,
+        marginBottom: 12,
+        flexDirection: 'row',
+        borderWidth: 1,
+        borderColor: '#eee',
+    },
+    upcomingTimeContainer: {
+        marginRight: 12,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 60,
+        position: 'relative',
+        backgroundColor: '#f5f5f5',
+        borderRadius: 12,
+        paddingVertical: 12,
+    },
+    upcomingStartTime: {
+        fontSize: 14,
+        fontWeight: '500',
+        color: '#333',
+    },
+    timeSeparator: {
+        width: 1,
+        height: 20,
+        backgroundColor: '#ddd',
+        marginVertical: 4,
+    },
+    upcomingEndTime: {
+        fontSize: 14,
+        color: '#666',
+    },
+    upcomingDetails: {
+        flex: 1,
+        paddingVertical: 15,
+        paddingHorizontal: 10,
+    },
+    upcomingCourseName: {
+        fontSize: 16,
+        fontWeight: '600',
+        marginBottom: 15,
+        color: '#333',
+    },
+    upcomingInfoColumn: {
+        flexDirection: 'column',
+        gap: 6,
+    },
+    upcomingInfoItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 8,
+    },
+    upcomingInfoText: {
+        fontSize: 13,
+        color: '#666',
     },
 });
 
