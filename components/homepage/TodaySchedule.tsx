@@ -9,36 +9,37 @@ const TodaySchedule = () => {
     const [currentSchedules, setCurrentSchedules] = useState<any[]>([]);
     const [upcomingSchedules, setUpcomingSchedules] = useState<any[]>([]);
 
-    useEffect(() => {
-        // Data dummy untuk testing
-        const dummySchedules = [
-            {
-                id: 1,
-                courseName: 'Keamanan Big Data',
-                startTime: '07:00',
-                endTime: '09:30',
-                room: 'R5407 • IF-1/SI/VI',
-                lecturer: 'Irawan Afrianto',
-                day: 'Kamis'
-            },
-            {
-                id: 2,
-                courseName: 'Pemrograman Android',
-                startTime: '14:30',
-                endTime: '17:00',
-                room: 'LAB-5 • P.ANDRO-3',
-                lecturer: 'Rizki Adam Kurniawan',
-                day: 'Kamis'
-            }
-        ];
+    // Testing data biar tampil
+    // useEffect(() => {
+    //     // Data dummy untuk testing
+    //     const dummySchedules = [
+    //         {
+    //             id: 1,
+    //             courseName: 'Keamanan Big Data',
+    //             startTime: '07:00',
+    //             endTime: '09:30',
+    //             room: 'R5407 • IF-1/SI/VI',
+    //             lecturer: 'Irawan Afrianto',
+    //             day: 'Kamis'
+    //         },
+    //         {
+    //             id: 2,
+    //             courseName: 'Pemrograman Android',
+    //             startTime: '14:30',
+    //             endTime: '17:00',
+    //             room: 'LAB-5 • P.ANDRO-3',
+    //             lecturer: 'Rizki Adam Kurniawan',
+    //             day: 'Kamis'
+    //         }
+    //     ];
 
-        // Untuk testing, kita hardcode saja
-        setCurrentSchedules([dummySchedules[0]]);  // Tampilkan kelas sedang berlangsung
-        // setCurrentSchedules([]);  // Tampilkan tidak ada kelas berlangsung
+    //     // Untuk testing, kita hardcode saja
+    //     setCurrentSchedules([dummySchedules[1]]);  // Tampilkan kelas sedang berlangsung
+    //     // setCurrentSchedules([]);  // Tampilkan tidak ada kelas berlangsung
 
-        setUpcomingSchedules([dummySchedules[1]]);
+    //     setUpcomingSchedules([dummySchedules[0]]);
 
-    }, []);
+    // }, []);
 
     // useEffect(() => {
     //     // Di sini kamu bisa ambil jadwal dari API atau data lokal
@@ -122,7 +123,7 @@ const TodaySchedule = () => {
                     ))
                 ) : (
                     <View style={styles.noClassCard}>
-                        <Coffee size={24} color="#666" />
+                        <Coffee size={40} color="#666" />
                         <Text style={styles.noClassText}>Tidak ada kelas berlangsung</Text>
                     </View>
                 )}
@@ -229,8 +230,9 @@ const styles = StyleSheet.create({
         marginBottom: 16,
     },
     infoContainer: {
-        flexDirection: 'row',
+        flexDirection: 'column',
         justifyContent: 'space-between',
+        gap: 10,
     },
     infoItemWrapper: {
         flexDirection: 'row',
@@ -262,6 +264,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#f5f5f5',
         borderRadius: 12,
         padding: 20,
+        minHeight: 120,
         marginBottom: 16,
         alignItems: 'center',
         justifyContent: 'center',
