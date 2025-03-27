@@ -1,4 +1,4 @@
-import { StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView, RefreshControl } from 'react-native';
 import { Text, View } from '@/components/Themed';
 import Colors from '@/constants/Colors';
 import Header from '@/components/campus/Header';
@@ -11,6 +11,14 @@ import { StatusBar as ExpoStatusBar } from 'expo-status-bar';
 
 export default function CampusScreen() {
   const [activeTab, setActiveTab] = useState('Berita');
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1000);
+  };
 
   const renderContent = () => {
     switch (activeTab) {
@@ -33,7 +41,14 @@ export default function CampusScreen() {
         <View style={styles.mainSection}>
           <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
           <View style={styles.mainSection2}>
-            <ScrollView>
+            <ScrollView refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                colors={[Colors.primary]}
+                tintColor={Colors.primary}
+              />
+            }>
               {renderContent()}
             </ScrollView>
           </View>
