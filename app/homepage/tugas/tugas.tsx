@@ -1,11 +1,20 @@
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { router } from 'expo-router'
 import { ChevronLeft, BookOpen, Clock, Eye } from 'lucide-react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar as ExpoStatusBar } from 'expo-status-bar';
 import Colors from '@/constants/Colors';
 import { dummyTasks } from '@/data/tugas';
+import { Task } from '@/data/tugas';
+import Animated, { 
+  useSharedValue, 
+  useAnimatedStyle, 
+  withTiming, 
+  withDelay,
+  interpolate,
+  Easing
+} from 'react-native-reanimated';
 
 function TugasScreen() {
   return (
@@ -20,52 +29,8 @@ function TugasScreen() {
             </TouchableOpacity>
           </View>
           <ScrollView style={styles.mainSection}>
-            {dummyTasks.map((task) => (
-              <View key={task.id} style={styles.taskCard}>
-                <View style={styles.taskHeader}>
-                  <Text style={styles.taskTitle}>{task.title}</Text>
-                  <View style={[
-                    styles.priorityBadge,
-                    task.priority === 'Tinggi' ? styles.highPriority : styles.mediumPriority
-                  ]}>
-                    <Text style={styles.priorityText}>Prioritas {task.priority}</Text>
-                  </View>
-                </View>
-
-                <View style={styles.subjectRow}>
-                  <BookOpen size={16} color={Colors.primary} />
-                  <Text style={styles.subjectText}>{task.subject}</Text>
-                </View>
-
-                <Text style={styles.taskDesc}>{task.description}</Text>
-
-                <View style={styles.deadlineRow}>
-                  <Clock size={16} color="#666" />
-                  <Text style={styles.taskDate}>Deadline: {task.deadline}</Text>
-                </View>
-
-                <View style={styles.statusSection}>
-                  <Text style={[
-                    styles.statusText,
-                    task.status === 'Belum dikerjakan' ? styles.statusPending : styles.statusInProgress
-                  ]}>
-                    {task.status}
-                  </Text>
-
-                  {task.progress > 0 && (
-                    <View style={styles.progressContainer}>
-                      <View style={[styles.progressBar, { width: `${task.progress}%` }]} />
-
-                    </View>
-                  )}
-                  <Text style={styles.progressText}>{task.progress}% selesai</Text>
-                </View>
-
-                <TouchableOpacity style={styles.detailButton}>
-                  <Eye size={16} color={Colors.primary} />
-                  <Text style={styles.detailButtonText}>Lihat Detail</Text>
-                </TouchableOpacity>
-              </View>
+            {(dummyTasks as Task[]).map((task, index) => (
+              <TaskCard key={task.id} task={task} index={index} />
             ))}
           </ScrollView>
         </View>
@@ -73,6 +38,84 @@ function TugasScreen() {
     </>
   )
 }
+
+// Komponen TaskCard dengan animasi
+interface TaskCardProps {
+  task: Task;
+  index: number;
+}
+
+const TaskCard = ({ task, index }: TaskCardProps) => {
+  const opacity = useSharedValue(0);
+  const translateY = useSharedValue(50);
+
+  useEffect(() => {
+    // Delay berdasarkan index untuk efek staggered
+    opacity.value = withDelay(
+      index * 100, 
+      withTiming(1, { duration: 500, easing: Easing.bezier(0.25, 0.1, 0.25, 1) })
+    );
+    
+    translateY.value = withDelay(
+      index * 100,
+      withTiming(0, { duration: 500, easing: Easing.bezier(0.25, 0.1, 0.25, 1) })
+    );
+  }, []);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      opacity: opacity.value,
+      transform: [{ translateY: translateY.value }]
+    };
+  });
+
+  return (
+    <Animated.View style={[styles.taskCard, animatedStyle]}>
+      <View style={styles.taskHeader}>
+        <Text style={styles.taskTitle}>{task.title}</Text>
+        <View style={[
+          styles.priorityBadge,
+          task.priority === 'Tinggi' ? styles.highPriority : styles.mediumPriority
+        ]}>
+          <Text style={styles.priorityText}>Prioritas {task.priority}</Text>
+        </View>
+      </View>
+
+      <View style={styles.subjectRow}>
+        <BookOpen size={16} color={Colors.primary} />
+        <Text style={styles.subjectText}>{task.subject}</Text>
+      </View>
+
+      <Text style={styles.taskDesc}>{task.description}</Text>
+
+      <View style={styles.deadlineRow}>
+        <Clock size={16} color="#666" />
+        <Text style={styles.taskDate}>Deadline: {task.deadline}</Text>
+      </View>
+
+      <View style={styles.statusSection}>
+        <Text style={[
+          styles.statusText,
+          task.status === 'Belum dikerjakan' ? styles.statusPending : styles.statusInProgress
+        ]}>
+          {task.status}
+        </Text>
+
+        {task.progress > 0 && (
+          <View style={styles.progressContainer}>
+            <View style={[styles.progressBar, { width: `${task.progress}%` }]} />
+          </View>
+        )}
+        <Text style={styles.progressText}>{task.progress}% selesai</Text>
+      </View>
+
+      <TouchableOpacity style={styles.detailButton}>
+        <Eye size={16} color={Colors.primary} />
+        <Text style={styles.detailButtonText}>Lihat Detail</Text>
+      </TouchableOpacity>
+    </Animated.View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {

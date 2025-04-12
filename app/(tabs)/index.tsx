@@ -3,7 +3,7 @@ import { Text } from '@/components/Themed';
 import { StatusBar as ExpoStatusBar } from 'expo-status-bar';
 import { StatusBar as RNStatusBar } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import Header from '@/components/homepage/Header';
 import TodaySchedule from '@/components/homepage/TodaySchedule';
 import QuickAccess from '@/components/homepage/QuickAccess';
@@ -15,17 +15,22 @@ import Colors from '@/constants/Colors';
 
 export default function TabOneScreen() {
   const [refreshing, setRefreshing] = React.useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
+
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
   
     // Fetch data (Coming Soon)
     // fetchScheduleData().then(() => setRefreshing(false));
-  
+
     // Simulasi loading
     setTimeout(() => {
       setRefreshing(false);
     }, 500);
+
+    // Increment refresh key untuk memicu animasi ulang
+    setRefreshKey(prevKey => prevKey + 1);
   }, []);
 
   useFocusEffect(
@@ -60,8 +65,8 @@ export default function TabOneScreen() {
 
           {/* Section baru untuk main content */}
           <View style={styles.mainSection2}>
-            <QuickAccess />
-            <Pengumuman />
+            <QuickAccess refreshKey={refreshKey}/>
+            <Pengumuman refreshKey={refreshKey} />
             <EventKampus />
             <ForumDiskusi />
             <CardInfo />

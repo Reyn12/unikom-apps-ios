@@ -1,8 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import Animated, { 
+  useSharedValue, 
+  useAnimatedStyle, 
+  withTiming, 
+  withDelay,
+  withSpring,
+  Easing
+} from 'react-native-reanimated';
 
-const Pengumuman = () => {
+interface PengumumanProps {
+  refreshKey?: number;
+}
+
+const Pengumuman = ({ refreshKey = 0 }: PengumumanProps) => {
+  // Nilai animasi
+  const opacity = useSharedValue(0);
+  const translateY = useSharedValue(30);
+  const scale = useSharedValue(0.9);
 
   // Data pengumuman
   const pengumumanData = {
@@ -11,25 +27,61 @@ const Pengumuman = () => {
     onPress: () => {}
   };
 
+  // Effect untuk animasi awal dan refresh
+  useEffect(() => {
+    // Reset nilai animasi saat refresh
+    opacity.value = 0;
+    translateY.value = 30;
+    scale.value = 0.9;
+
+    // Jalankan animasi dengan delay kecil
+    opacity.value = withDelay(
+      200, 
+      withTiming(1, { duration: 400, easing: Easing.bezier(0.25, 0.1, 0.25, 1) })
+    );
+    
+    translateY.value = withDelay(
+      200,
+      withTiming(0, { duration: 400, easing: Easing.bezier(0.25, 0.1, 0.25, 1) })
+    );
+
+    scale.value = withDelay(
+      200,
+      withSpring(1, { damping: 12, stiffness: 90 })
+    );
+  }, [refreshKey]); // Jalankan ulang animasi saat refreshKey berubah
+
+  // Style animasi
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      opacity: opacity.value,
+      transform: [
+        { translateY: translateY.value },
+        { scale: scale.value }
+      ]
+    };
+  });
+
   return (
-    <TouchableOpacity style={styles.container} onPress={pengumumanData.onPress}>
-      <View style={styles.leftBorder} />
-      <View style={styles.leftContent}>
-        <Ionicons name="megaphone-outline" size={24} color="#4169E1" />
-        <View style={styles.textContainer}>
-          <Text style={styles.title}>{pengumumanData.title}</Text>
-          <Text style={styles.description}>
-            {pengumumanData.description}
-          </Text>
+    <Animated.View style={animatedStyle}>
+      <TouchableOpacity style={styles.container} onPress={pengumumanData.onPress}>
+        <View style={styles.leftBorder} />
+        <View style={styles.leftContent}>
+          <Ionicons name="megaphone-outline" size={24} color="#4169E1" />
+          <View style={styles.textContainer}>
+            <Text style={styles.title}>{pengumumanData.title}</Text>
+            <Text style={styles.description}>
+              {pengumumanData.description}
+            </Text>
+          </View>
         </View>
-      </View>
-      <Ionicons name="chevron-forward" size={24} color="#4169E1" />
-    </TouchableOpacity>
+        <Ionicons name="chevron-forward" size={24} color="#4169E1" />
+      </TouchableOpacity>
+    </Animated.View>
   );
 };
 
 const styles = StyleSheet.create({
-  // Styles tetap sama
   container: {
     backgroundColor: '#EBF2FF',
     marginTop: 25,
