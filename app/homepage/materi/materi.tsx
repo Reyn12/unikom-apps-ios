@@ -17,6 +17,10 @@ export default function Materi() {
       setExpandedCourse(courseId);
     }
   };
+  
+  const navigateDetailMateri = () => {
+    router.push(`./detailMateri/`);
+  };
 
   return (
     <>
@@ -60,6 +64,7 @@ export default function Materi() {
                         key={materi.id} 
                         style={styles.materiItem}
                         activeOpacity={0.7}
+                        onPress={() => navigateDetailMateri()}
                       >
                         <View style={styles.materiNumberContainer}>
                           <Text style={styles.materiNumber}>{materi.id}</Text>
