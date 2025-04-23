@@ -234,6 +234,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 18,
         fontWeight: 'bold',
+        color: Colors.putih,
     },
     viewAll: {
         fontSize: 14,
